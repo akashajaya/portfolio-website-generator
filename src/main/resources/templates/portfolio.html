@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Portfolio</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link
+            href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap"
+            rel="stylesheet">
+
+
+    <link rel="stylesheet" th:href="@{/css/portfolio.css}">
+
+</head>
+<body>
+<div class="logo-corner">
+    <a href="/"> <img th:src="@{/images/logo.png}" alt="Logo" />
+    </a>
+
+</div>
+<div class="container">
+
+
+    <div class="head">
+        <div class="profile-left">
+            <div class="cover-photo"></div>
+            <img th:src="${user.avatar_url}" alt="User Avatar" class="dp-img">
+
+
+            <h3 th:text="${user.name}">User Name</h3>
+            <p th:text="${user.bio}">Bio</p>
+
+        </div>
+
+        <div class="profile-right">
+            <h3>Contributions</h3>
+            <img th:src="${chartUrl}" alt="Contribution Chart">
+            <div class="repo">
+                <span>Public Repo :</span>
+                <div class="hcolor">
+                    <span th:text="${user.public_repos}"></span>
+                </div>
+
+            </div>
+
+            <div class="bottom-section">
+                <div class="languages">
+                    <h3>Languages</h3>
+                    <div class="lang">
+                        <ul>
+                            <li th:each="lang : ${languages}" th:text="${lang}">Language</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="connect">
+                    <a th:if="${linkedin}" th:href="${linkedin}" class="linkedin-link"
+                       target="_blank"> <img class="img2" th:src="@{/images/linkedIn.png}"
+                                             alt="GitHub Logo">
+                    </a> <a th:href="${user.html_url}" class="github-link" target="_blank">
+                    <img class="img2" th:src="@{/images/git.png}" alt="GitHub Logo">
+                </a>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+    <div class="project-cont" th:if="${description}">
+        <h3>ABOUT ME 💡</h3>
+        <p th:text="${description}"></p>
+    </div>
+
+
+    <div class="project-cont">
+        <h3>PROJECTS 🛠️</h3>
+
+        <div class="card-container">
+            <div class="card" th:each="repo : ${repos}">
+                <div class="card-header">
+                    <h5 th:text="${repo.name}">Project Name</h5>
+                    <span class="tag" th:text="${repo.language}">Language</span>
+                </div>
+
+                <p class="description" th:text="${repo.description}">No
+                    description available.</p>
+
+                <!-- Footer section fixed to bottom -->
+                <div class="card-footer">
+                    <ul class="meta">
+                        <li>⭐ Stars: <span th:text="${repo.stargazers_count}">0</span></li>
+                        <li>🍴 Forks: <span th:text="${repo.forks_count}">0</span></li>
+                        <li>🐞 Issues: <span th:text="${repo.open_issues_count}">0</span></li>
+                        <li>👥 Contributors: <span
+                                th:text="${repo.contributors_count}">0</span></li>
+                    </ul>
+
+                    <a th:href="${repo.html_url}" class="repo-link" target="_blank">🔗
+                        View Repo</a>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+<div style="height: 50px;"></div>
+
+<div class="footer">
+    <p>
+        Crafted with ❤️ by <a href="https://github.com/akashajaya"
+                              target="_blank">Akash Ajayan</a> | <a
+            href="https://www.linkedin.com/in/akash-ajayan/" target="_blank">LinkedIn</a>
+    </p>
+</div>
+</body>
+<script>
+    window.addEventListener('scroll', function() {
+        const logo = document.querySelector('.logo-corner');
+        const maxScroll = 200;
+        const scrollY = window.scrollY;
+
+        const opacity = Math.max(1 - scrollY / maxScroll, 0.2);
+
+        logo.style.opacity = opacity;
+    });
+</script>
+
+</html>

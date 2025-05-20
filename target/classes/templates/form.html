@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>GitHub Portfolio</title>
+    <link
+            href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap"
+            rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/form.css}" />
+</head>
+<body>
+<div class="logo-corner">
+    <nav>
+        <img th:src="@{/images/logo.png}" alt="Logo" />
+    </nav>
+    <a href="https://github.com/akashajaya" target="_blank"
+       class="git-top" style="text-decoration: none;">
+        <h4>GitHub</h4> <img class="logo" th:src="@{/images/git.png}"
+                             alt="GitHub Logo" />
+    </a>
+
+</div>
+
+
+<div class="content">
+    <h1>
+        Get your <span class="highlight">portfolio</span> <br> ready in
+        a snap
+    </h1>
+    <img th:src="@{/images/snap0.png}" alt="Snap Image">
+</div>
+
+
+<div class="content2">
+    <button class="btn-snap" onclick="showFormOne(event)">
+
+        <img th:src="@{/images/star.png}" alt="Star"> <span>Snap</span>
+    </button>
+
+    <button class="btn-custom" onclick="showFormTwo(event)">Custom
+        Portfolio</button>
+</div>
+
+
+<div class="form-content" id="portfolio-form">
+    <form id="portfolioForm" method="post" action="/portfolio"
+          onsubmit="startLoading(event)">
+        <div class="head">
+            <img class="logo" th:src="@{/images/git.png}" alt="GitHub Logo" />
+            <h4>GitHub</h4>
+        </div>
+        <input type="text" id="usernameInput" name="username"
+               placeholder="Enter GitHub username" required />
+        <div class="form-buttons">
+            <button type="submit">Generate Portfolio</button>
+            <button type="button" onclick="cancelActionOne()">Cancel</button>
+        </div>
+    </form>
+</div>
+
+<div class="form-content" id="custom-form">
+    <form id="customForm" method="post" action="/"
+          onsubmit="startLoadingTwo(event)">
+        <div class="head">
+            <img class="logo" th:src="@{/images/git.png}" alt="GitHub Logo" />
+            <h4>GitHub</h4>
+        </div>
+        <div class="head">
+            <img class="logo" th:src="@{/images/cat.png}" alt="GitHub Logo" />
+            <p>Type in carefully,entered details cannot be edited once
+                submitted</p>
+        </div>
+        <input type="text" id="usernameIn" name="usernameIn"
+               placeholder="Enter GitHub username" required />
+        <textarea name="bio" id="bio" placeholder="Description About You"></textarea>
+        <input type="text" name="linkedin" placeholder="Enter LinkedIn Url"
+               required />
+        <div class="form-buttons">
+            <button type="submit">Submit</button>
+            <button type="button" onclick="cancelActionTwo()">Cancel</button>
+        </div>
+    </form>
+</div>
+
+
+<div id="loading-overlay">
+    <img th:src="@{/images/snap00.png}" class="loading-img img1" alt="Loading 1">
+    <img th:src="@{/images/snap01.png}" class="loading-img img2 hidden"
+         alt="Loading 2">
+</div>
+
+<div class="footer">
+    <p>
+        Crafted with ❤️ by <a href="https://github.com/akashajaya"
+                              target="_blank">Akash Ajayan</a> | <a
+            href="https://www.linkedin.com/in/akash-ajayan/" target="_blank">LinkedIn</a>
+    </p>
+</div>
+
+
+</body>
+<script>
+    function showFormOne(event) {
+        event.preventDefault();
+        document.getElementById('portfolio-form').style.visibility = 'visible';
+        document.getElementById('portfolio-form').style.opacity = '1';
+    }
+
+    function showFormTwo(event) {
+        event.preventDefault();
+        document.getElementById('custom-form').style.visibility = 'visible';
+        document.getElementById('custom-form').style.opacity = '1';
+    }
+
+    function cancelActionOne() {
+const form = document.getElementById('portfolio-form');
+form.style.opacity = '0';
+form.style.visibility = 'hidden';
+}
+
+function cancelActionTwo() {
+const form = document.getElementById('custom-form');
+form.style.opacity = '0';
+form.style.visibility = 'hidden';
+}
+</script>
+<script>
+    function startLoading(event) {
+        event.preventDefault(); // prevent form from submitting immediately
+
+        const overlay = document.getElementById('loading-overlay');
+        const img1 = document.querySelector('.img1');
+        const img2 = document.querySelector('.img2');
+        const form = event.target;
+        const usernameInput = document.getElementById('usernameInput');
+        const username = usernameInput.value.trim();
+
+        if (!username) {
+            alert("Please enter a GitHub username.");
+            return;
+        }
+
+
+        overlay.classList.add('active');
+        setTimeout(() => {
+            img1.classList.add('hidden');
+            img2.classList.remove('hidden');
+            img2.classList.add('show');
+        }, 500);
+
+        // Set dynamic form action and submit after delay
+        setTimeout(() => {
+            form.action = "/portfolio/" + encodeURIComponent(username);
+            form.submit();
+        }, 1000);
+    }
+</script>
+<script>
+    function startLoadingTwo(event) {
+     event.preventDefault();
+
+     const overlay = document.getElementById('loading-overlay');
+     const img1 = document.querySelector('.img1');
+     const img2 = document.querySelector('.img2');
+     const form = event.target;
+     const usernameInput = document.getElementById('usernameIn');
+     const username = usernameInput.value.trim();
+
+     if (!username) {
+         alert("Please enter a GitHub username.");
+         return;
+     }
+
+     overlay.classList.add('active');
+     setTimeout(() => {
+         img1.classList.add('hidden');
+         img2.classList.remove('hidden');
+         img2.classList.add('show');
+     }, 500);
+
+     setTimeout(() => {
+         form.submit();
+     }, 1000);
+ }
+
+</script>
+
+</html>
